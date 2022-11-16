@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="app.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <title>Cooking Incremental 0.0.1</title>
+    </head>
+    <body>
+        <div class="Content">
+            <p>Wheat: <span id="wheatlabel">0</span></p>
+            <p>Bread: <span id="breadlabel">0</span></p>
+            <p>Money: <span id="moneylabel">$0</span></p>
+            <div class="Kitchen">
+                <button id="harvestwheat" onclick="addwheat(WheatPerClick)">Harvest Wheat</button>
+                <button id="makebread" onclick="addbread(BreadPerClick)">Make Bread</button>
+            </div>
+            <div class="Sellbuttons">
+                <button id="sellbread" onclick="sellbread(1)">Sell Bread</button>
+            </div>
+            <div class="Shop">
+                <button id="buyharvester" onclick="buyharvester(1)">Buy a Harvester($10)</button>
+                <button id="buybaker" onclick="buybaker(1)">Buy a Baker($100)</button>
+                <button id="buyseller" onclick="buyseller(1)">Buy a Seller($500)</button>
+            </div>
+            <div class="Upgrades">
+                <button id="upgradeclick" onclick="upgradecursor()">Upgrade Manual Harvester($100)</button>
+            </div>
+        </div>
+        <script>
+            var Wheat = 0;
+            var WheatPerClick = 1;
+            var Bread = 0;
+            var BreadPerClick = 1;
+            var Money = 0;
+            var Harvesters = 0;
+            var HarvesterPrice = 10;
+            var Bakers = 0;
+            var BakerPrice = 100;
+            var Sellers = 0;
+            var SellerPrice = 500;
+            var Upgrade1Price = 100;
+            var Upgrade1 = false
+            function addwheat(amount){
+                Wheat = Wheat + amount;
+                document.getElementById("wheatlabel").innerHTML = Wheat;
+                document.getElementById("breadlabel").innerHTML = Bread;
+                document.getElementById("moneylabel").innerHTML = "$"+Money;
+                document.getElementById("buyharvester").innerHTML = "Buy a Harvester($"+HarvesterPrice+")";
+                document.getElementById("buybaker").innerHTML = "Buy a Baker($"+BakerPrice+")";
+                document.getElementById("buyseller").innerHTML = "Buy a Seller($"+SellerPrice+")";
+            }
+            function addbread(amount){
+                if(Wheat >= 1){
+                    Wheat = Wheat - 1;
+                    Bread = Bread + amount;
+                    document.getElementById("breadlabel").innerHTML = Bread;
+                    document.getElementById("wheatlabel").innerHTML = Wheat;
+                    document.getElementById("moneylabel").innerHTML = "$"+Money;
+                    document.getElementById("buyharvester").innerHTML = "Buy a Harvester($"+HarvesterPrice+")";
+                    document.getElementById("buybaker").innerHTML = "Buy a Baker($"+BakerPrice+")";
+                    document.getElementById("buyseller").innerHTML = "Buy a Seller($"+SellerPrice+")";
+                }
+            }
+            function sellbread(amount){
+                if(Bread >= 1){
+                    Bread = Bread - 1;
+                    Money = Money + amount;
+                    document.getElementById("breadlabel").innerHTML = Bread;
+                    document.getElementById("wheatlabel").innerHTML = Wheat;
+                    document.getElementById("moneylabel").innerHTML = "$"+Money;
+                    document.getElementById("buyharvester").innerHTML = "Buy a Harvester($"+HarvesterPrice+")";
+                    document.getElementById("buybaker").innerHTML = "Buy a Baker($"+BakerPrice+")";
+                    document.getElementById("buyseller").innerHTML = "Buy a Seller($"+SellerPrice+")";
+                }
+            }
+            function buyharvester(amount){
+                if(Money >= HarvesterPrice){
+                    Money = Money - HarvesterPrice;
+                    HarvesterPrice = Math.round(HarvesterPrice * 1.15);
+                    Harvesters = Harvesters + amount;
+                    document.getElementById("breadlabel").innerHTML = Bread;
+                    document.getElementById("wheatlabel").innerHTML = Wheat;
+                    document.getElementById("moneylabel").innerHTML = "$"+Money;
+                    document.getElementById("buyharvester").innerHTML = "Buy a Harvester($"+HarvesterPrice+")";
+                    document.getElementById("buybaker").innerHTML = "Buy a Baker($"+BakerPrice+")";
+                    document.getElementById("buyseller").innerHTML = "Buy a Seller($"+SellerPrice+")";
+                }
+            }
+            function buybaker(amount){
+                if(Money >= BakerPrice){
+                    Money = Money - BakerPrice;
+                    BakerPrice = Math.round(BakerPrice * 1.15);
+                    Bakers = Bakers + amount;
+                    document.getElementById("breadlabel").innerHTML = Bread;
+                    document.getElementById("wheatlabel").innerHTML = Wheat;
+                    document.getElementById("moneylabel").innerHTML = "$"+Money;
+                    document.getElementById("buyharvester").innerHTML = "Buy a Harvester($"+HarvesterPrice+")";
+                    document.getElementById("buybaker").innerHTML = "Buy a Baker($"+BakerPrice+")";
+                    document.getElementById("buyseller").innerHTML = "Buy a Seller($"+SellerPrice+")";
+                }
+            }
+            function buyseller(amount){
+                if(Money >= SellerPrice){
+                    Money = Money - SellerPrice;
+                    SellerPrice = Math.round(SellerPrice * 1.15);
+                    Sellers = Sellers + amount;
+                    document.getElementById("breadlabel").innerHTML = Bread;
+                    document.getElementById("wheatlabel").innerHTML = Wheat;
+                    document.getElementById("moneylabel").innerHTML = "$"+Money;
+                    document.getElementById("buyharvester").innerHTML = "Buy a Harvester($"+HarvesterPrice+")";
+                    document.getElementById("buybaker").innerHTML = "Buy a Baker($"+BakerPrice+")";
+                    document.getElementById("buyseller").innerHTML = "Buy a Seller($"+SellerPrice+")";
+                }
+            }
+            function upgradecursor(amount){
+                if(Money >= Upgrade1Price&&Upgrade1 == false){
+                    Money = Money - Upgrade1Price;
+                    Upgrade1 = true
+                    WheatPerClick = 2;
+                    document.getElementById("breadlabel").innerHTML = Bread;
+                    document.getElementById("wheatlabel").innerHTML = Wheat;
+                    document.getElementById("moneylabel").innerHTML = "$"+Money;
+                    document.getElementById("buyharvester").innerHTML = "Buy a Harvester($"+HarvesterPrice+")";
+                    document.getElementById("buybaker").innerHTML = "Buy a Baker($"+BakerPrice+")";
+                    document.getElementById("buyseller").innerHTML = "Buy a Seller($"+SellerPrice+")";
+                }
+            }
+            setInterval(function(){
+                Wheat = Wheat + Harvesters;
+                if(Wheat >= 1){
+                    Bread = Bread + Bakers;
+                    Wheat = Wheat - Bakers;
+                }
+                if(Bread >= 1){
+                    Money = Money + Sellers;
+                    Bread = Bread - Sellers;
+                }
+                document.getElementById("breadlabel").innerHTML = Bread;
+                document.getElementById("wheatlabel").innerHTML = Wheat;
+                document.getElementById("moneylabel").innerHTML = "$"+Money;
+                document.getElementById("buyharvester").innerHTML = "Buy a Harvester($"+HarvesterPrice+")";
+                document.getElementById("buybaker").innerHTML = "Buy a Baker($"+BakerPrice+")";
+                document.getElementById("buyseller").innerHTML = "Buy a Seller($"+SellerPrice+")";
+            },1000);
+        </script>
+    </body>
+</html>
